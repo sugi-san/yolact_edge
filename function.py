@@ -96,7 +96,7 @@ def reset_folder(path):
 import cv2
 
 def size_opt(file):
-    max_size = 820
+    max_size = 1024
     npyImage = cv2.imread(filename = file, flags = cv2.IMREAD_COLOR)
     intWidth = npyImage.shape[1]
     intHeight = npyImage.shape[0]
