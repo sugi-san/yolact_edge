@@ -92,10 +92,24 @@ def reset_folder(path):
     os.makedirs(path,exist_ok=True)
     
     
-# --- get_sampling_rate --- 
-import wave
+# --- size adjust --- 
+import cv2
 
-def get_rate(file_path):
-    wf = wave.open(file_path, "r")
-    fs = wf.getframerate()
-    return fs
+def size_opt(file):
+    max_size = 820
+    npyImage = cv2.imread(filename = file, flags = cv2.IMREAD_COLOR)
+    intWidth = npyImage.shape[1]
+    intHeight = npyImage.shape[0]
+
+    fltRatio = float(intWidth) / float(intHeight)
+    intWidth = min(int(max_size * fltRatio), max_size)
+    intHeight = min(int(max_size / fltRatio), max_size)
+
+    # make even
+    if not intWidth % 2 == 0:
+      intWidth +=1
+    if not intHeight % 2 ==0:
+      intHeight +=1
+
+    npyImage = cv2.resize(src=npyImage, dsize=(intWidth, intHeight), fx=0.0, fy=0.0, interpolation=cv2.INTER_AREA)
+    cv2.imwrite(file, npyImage)
